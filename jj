@@ -51,7 +51,7 @@ for i = 1, 10 do
 	end)
 end
 wait(2)
-if workspace.CurrentCamera.CameraType == "Scriptable" then
+if workspace.CurrentCamera.CameraType == Enum.CameraType.Scriptable then
 	teleport()
 end
 local is = nil
