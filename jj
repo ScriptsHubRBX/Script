@@ -19,10 +19,46 @@ Players.LocalPlayer.OnTeleport:Connect(function(State)
     if not TeleportCheck and queueteleport then
         TeleportCheck = true
         queueteleport([[
-            loadstring(game:HttpGet('https://raw.githubusercontent.com/ScriptsHubRBX/Script/refs/heads/main/jj'))()
+            --loadstring(game:HttpGet('https://raw.githubusercontent.com/ScriptsHubRBX/Script/refs/heads/main/jj'))()
         ]])
     end
 end)
+for i = 1, 10 do
+pcall(function()
+local UserInputService = game:GetService("UserInputService")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+local button = game:GetService("Players").LocalPlayer.PlayerGui.TeamSelectGui.TeamSelect.Frame.MiddleContainer.Container.Criminal
+local pos = button.AbsolutePosition
+local size = button.AbsoluteSize
+
+local x = pos.X + size.X / 2
+local y = pos.Y + size.Y / 2
+
+VirtualInputManager:SendMouseButtonEvent(x, y, 0, true, game, 0)
+task.wait()
+VirtualInputManager:SendMouseButtonEvent(x, y, 0, false, game, 0)
+end)
+end
+local is = nil
+for _, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.WorldMarkersGui:GetChildren()) do
+		pcall(function()
+			local robname = v.ImageLabel.ImageLabel.Image
+			if robname == "rbxassetid://118335970965314" and v.Visible == true then
+				is = true
+			elseif game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false and robname == "rbxassetid://118335970965314" and v.Visible == false then
+				print(1)
+				wait(3)
+				local TeleportService=game:GetService("TeleportService")
+				local HttpService=game:GetService("HttpService")
+				local Players=game:GetService("Players")
+				local API="https://8649f5a9-2ebe-43c6-bc1b-7871595f5cd7-00-2ar60u5xx0j3s.worf.replit.dev/api/latest-robbery/jewelry"
+				local function get(u) if syn and syn.request then return syn.request({Url=u,Method="GET"}) elseif request then return request({Url=u,Method="GET"}) elseif http and http.request then return http.request({Url=u,Method="GET"}) end end
+				local r=get(API) if not r then return end
+				local ok,d=pcall(function() return HttpService:JSONDecode(r.Body) end)
+				if ok and d and d.found then TeleportService:TeleportToPlaceInstance(game.PlaceId,d.serverId,Players.LocalPlayer) else warn("Сервер не найден!") end
+			end
+		end)
+	end
 spawn(function()
 while wait() do
 	for _, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.WorldMarkersGui:GetChildren()) do
@@ -31,6 +67,8 @@ while wait() do
 			if robname == "rbxassetid://118335970965314" and v.Visible == true then
 				is = true
 			elseif game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false and robname == "rbxassetid://118335970965314" and v.Visible == false then
+				print(1)
+				wait(3)
 				local TeleportService=game:GetService("TeleportService")
 				local HttpService=game:GetService("HttpService")
 				local Players=game:GetService("Players")
@@ -283,3 +321,12 @@ else
 end
 wait(.1)
 bv:Destroy()
+wait(3)
+local TeleportService=game:GetService("TeleportService")
+local HttpService=game:GetService("HttpService")
+local Players=game:GetService("Players")
+local API="https://8649f5a9-2ebe-43c6-bc1b-7871595f5cd7-00-2ar60u5xx0j3s.worf.replit.dev/api/latest-robbery/jewelry"
+local function get(u) if syn and syn.request then return syn.request({Url=u,Method="GET"}) elseif request then return request({Url=u,Method="GET"}) elseif http and http.request then return http.request({Url=u,Method="GET"}) end end
+local r=get(API) if not r then return end
+local ok,d=pcall(function() return HttpService:JSONDecode(r.Body) end)
+if ok and d and d.found then TeleportService:TeleportToPlaceInstance(game.PlaceId,d.serverId,Players.LocalPlayer) else warn("Сервер не найден!") end
