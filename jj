@@ -2,44 +2,7 @@ _G.Auto = true
 local TeleportService = game:GetService("TeleportService")
 local Players = game:GetService("Players")
 
-local function missing(t, f, fallback)
-    if type(f) == t then return f end
-    return fallback
-end
-
-local queueteleport = missing("function", 
-    queue_on_teleport 
-    or (syn and syn.queue_on_teleport) 
-    or (fluxus and fluxus.queue_on_teleport)
-)
-
-local TeleportCheck = false
-
-Players.LocalPlayer.OnTeleport:Connect(function(State)
-    if not TeleportCheck and queueteleport then
-        TeleportCheck = true
-        queueteleport([[
-            loadstring(game:HttpGet('https://raw.githubusercontent.com/ScriptsHubRBX/Script/refs/heads/main/jj'))()
-        ]])
-    end
-end)
-for i = 1, 10 do
-pcall(function()
-local UserInputService = game:GetService("UserInputService")
-local VirtualInputManager = game:GetService("VirtualInputManager")
-local button = game:GetService("Players").LocalPlayer.PlayerGui.TeamSelectGui.TeamSelect.Frame.MiddleContainer.Container.Criminal
-local pos = button.AbsolutePosition
-local size = button.AbsoluteSize
-
-local x = pos.X + size.X / 2
-local y = pos.Y + size.Y / 2
-
-VirtualInputManager:SendMouseButtonEvent(x, y, 0, true, game, 0)
-task.wait()
-VirtualInputManager:SendMouseButtonEvent(x, y, 0, false, game, 0)
-end)
-end
-if workspace.CurrentCamera.CameraType == "Custom" then
+local function teleport()
 	local TeleportService=game:GetService("TeleportService")
 	local HttpService=game:GetService("HttpService")
 	local Players=game:GetService("Players")
@@ -49,57 +12,78 @@ if workspace.CurrentCamera.CameraType == "Custom" then
 	local ok,d=pcall(function() return HttpService:JSONDecode(r.Body) end)
 	if ok and d and d.found then TeleportService:TeleportToPlaceInstance(game.PlaceId,d.serverId,Players.LocalPlayer) else warn("Сервер не найден!") end
 end
+
+local function missing(t, f, fallback)
+	if type(f) == t then return f end
+	return fallback
+end
+
+local queueteleport = missing("function", 
+	queue_on_teleport 
+		or (syn and syn.queue_on_teleport) 
+		or (fluxus and fluxus.queue_on_teleport)
+)
+
+local TeleportCheck = false
+
+Players.LocalPlayer.OnTeleport:Connect(function(State)
+	if not TeleportCheck and queueteleport then
+		TeleportCheck = true
+		queueteleport([[
+            loadstring(game:HttpGet('https://raw.githubusercontent.com/ScriptsHubRBX/Script/refs/heads/main/jj'))()
+        ]])
+	end
+end)
+for i = 1, 10 do
+	pcall(function()
+		local UserInputService = game:GetService("UserInputService")
+		local VirtualInputManager = game:GetService("VirtualInputManager")
+		local button = game:GetService("Players").LocalPlayer.PlayerGui.TeamSelectGui.TeamSelect.Frame.MiddleContainer.Container.Criminal
+		local pos = button.AbsolutePosition
+		local size = button.AbsoluteSize
+
+		local x = pos.X + size.X / 2
+		local y = pos.Y + size.Y / 2
+
+		VirtualInputManager:SendMouseButtonEvent(x, y, 0, true, game, 0)
+		task.wait()
+		VirtualInputManager:SendMouseButtonEvent(x, y, 0, false, game, 0)
+	end)
+end
+wait(2)
+if workspace.CurrentCamera.CameraType == "Custom" then
+	teleport()
+end
 local is = nil
 for _, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.WorldMarkersGui:GetChildren()) do
-		pcall(function()
-			local robname = v.ImageLabel.ImageLabel.Image
-			if robname == "rbxassetid://118335970965314" and v.Visible == true then
-				is = true
-			elseif game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false and robname == "rbxassetid://118335970965314" and v.Visible == false then
-				wait(1)
-				local TeleportService=game:GetService("TeleportService")
-				local HttpService=game:GetService("HttpService")
-				local Players=game:GetService("Players")
-				local API="https://8649f5a9-2ebe-43c6-bc1b-7871595f5cd7-00-2ar60u5xx0j3s.worf.replit.dev/api/latest-robbery/jewelry"
-				local function get(u) if syn and syn.request then return syn.request({Url=u,Method="GET"}) elseif request then return request({Url=u,Method="GET"}) elseif http and http.request then return http.request({Url=u,Method="GET"}) end end
-				local r=get(API) if not r then return end
-				local ok,d=pcall(function() return HttpService:JSONDecode(r.Body) end)
-				if ok and d and d.found then TeleportService:TeleportToPlaceInstance(game.PlaceId,d.serverId,Players.LocalPlayer) else warn("Сервер не найден!") end
-			end
-		end)
-	end
-spawn(function()
-while wait() do
-	for _, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.WorldMarkersGui:GetChildren()) do
-		pcall(function()
-			local robname = v.ImageLabel.ImageLabel.Image
-			if robname == "rbxassetid://118335970965314" and v.Visible == true then
-				is = true
-			elseif game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false and robname == "rbxassetid://118335970965314" and v.Visible == false then
-				wait(1)
-				local TeleportService=game:GetService("TeleportService")
-				local HttpService=game:GetService("HttpService")
-				local Players=game:GetService("Players")
-				local API="https://8649f5a9-2ebe-43c6-bc1b-7871595f5cd7-00-2ar60u5xx0j3s.worf.replit.dev/api/latest-robbery/jewelry"
-				local function get(u) if syn and syn.request then return syn.request({Url=u,Method="GET"}) elseif request then return request({Url=u,Method="GET"}) elseif http and http.request then return http.request({Url=u,Method="GET"}) end end
-				local r=get(API) if not r then return end
-				local ok,d=pcall(function() return HttpService:JSONDecode(r.Body) end)
-				if ok and d and d.found then TeleportService:TeleportToPlaceInstance(game.PlaceId,d.serverId,Players.LocalPlayer) else warn("Сервер не найден!") end
-			end
-		end)
-	end
+	pcall(function()
+		local robname = v.ImageLabel.ImageLabel.Image
+		if robname == "rbxassetid://118335970965314" and v.Visible == true then
+			is = true
+		elseif game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false and robname == "rbxassetid://118335970965314" and v.Visible == false then
+			wait(1)
+			teleport()
+		end
+	end)
 end
+spawn(function()
+	while wait() do
+		for _, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.WorldMarkersGui:GetChildren()) do
+			pcall(function()
+				local robname = v.ImageLabel.ImageLabel.Image
+				if robname == "rbxassetid://118335970965314" and v.Visible == true then
+					is = true
+				elseif game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false and robname == "rbxassetid://118335970965314" and v.Visible == false then
+					wait(1)
+					teleport()
+				end
+			end)
+		end
+	end
 end)
 if is == nil then
-	local TeleportService=game:GetService("TeleportService")
-local HttpService=game:GetService("HttpService")
-local Players=game:GetService("Players")
-local API="https://8649f5a9-2ebe-43c6-bc1b-7871595f5cd7-00-2ar60u5xx0j3s.worf.replit.dev/api/latest-robbery/jewelry"
-local function get(u) if syn and syn.request then return syn.request({Url=u,Method="GET"}) elseif request then return request({Url=u,Method="GET"}) elseif http and http.request then return http.request({Url=u,Method="GET"}) end end
-local r=get(API) if not r then return end
-local ok,d=pcall(function() return HttpService:JSONDecode(r.Body) end)
-if ok and d and d.found then TeleportService:TeleportToPlaceInstance(game.PlaceId,d.serverId,Players.LocalPlayer) else warn("Сервер не найден!") end
-return
+	teleport()
+	return
 end
 loadstring(game:HttpGet("https://pastebin.com/raw/iU7rJk5T"))()
 local VirtualInputManager = game:GetService("VirtualInputManager")
@@ -109,13 +93,13 @@ local character = game:GetService("Players").LocalPlayer.Character
 game:GetService("RunService").RenderStepped:Connect(function()
 	character.Humanoid.WalkSpeed = 100
 	for i, v in game:GetService("Players").LocalPlayer.Character:GetChildren() do
-	if v:IsA("BasePart") then
-		v.CanCollide = false
+		if v:IsA("BasePart") then
+			v.CanCollide = false
+		end
+		if v:IsA("BasePart") and v.Name ~= "HumanoidRootPart" then
+			v.CanTouch = false
+		end
 	end
-	if v:IsA("BasePart") and v.Name ~= "HumanoidRootPart" then
-		v.CanTouch = false
-	end
-end
 end)
 infJump = game:GetService("UserInputService").JumpRequest:Connect(function()
 	if not infJumpDebounce then
@@ -128,11 +112,11 @@ end)
 local bv = nil
 local hrp = character.HumanoidRootPart
 local function moveTo(targetPos, moveSpeed,tp)
-local disct = 1.2
-if character.Humanoid.Sit == true then
-	disct = 5
-end
-local start = tick()
+	local disct = 1.2
+	if character.Humanoid.Sit == true then
+		disct = 5
+	end
+	local start = tick()
 	repeat
 		task.wait()
 		direction = (targetPos - hrp.Position).Unit
@@ -145,8 +129,16 @@ local start = tick()
 			moveTo(Vector3.new(-103, 91, 1453),100)
 			moveTo(Vector3.new(-268, 68, 1579),100)
 			moveTo(Vector3.new(-284, 21, 1607),100)
+			local TeleportService=game:GetService("TeleportService")
+			local HttpService=game:GetService("HttpService")
+			local Players=game:GetService("Players")
+			local API="https://8649f5a9-2ebe-43c6-bc1b-7871595f5cd7-00-2ar60u5xx0j3s.worf.replit.dev/api/latest-robbery/jewelry"
+			local function get(u) if syn and syn.request then return syn.request({Url=u,Method="GET"}) elseif request then return request({Url=u,Method="GET"}) elseif http and http.request then return http.request({Url=u,Method="GET"}) end end
+			local r=get(API) if not r then return end
+			local ok,d=pcall(function() return HttpService:JSONDecode(r.Body) end)
+			if ok and d and d.found then TeleportService:TeleportToPlaceInstance(game.PlaceId,d.serverId,Players.LocalPlayer) else warn("Сервер не найден!") end
 			while wait() do
-				
+
 			end
 		end
 	until (targetPos - hrp.Position).Magnitude <= disct
@@ -177,7 +169,7 @@ moveTo(Vector3.new(-103, 92, 422),450)
 workspace:WaitForChild("Jewelrys"):WaitForChild("Jewelry"):WaitForChild("Wall")
 local is = false
 if workspace.Jewelrys.Jewelry.Wall:GetChildren()[1]:GetAttribute("DoorDuration")==1 then
-is = true
+	is = true
 	moveTo(Vector3.new(73, 124, 1291),450)
 	wait(.5)
 	game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.Space.Value, false, nil)
@@ -186,24 +178,15 @@ is = true
 	wait(.2)
 
 	repeat 
-	moveTo(Vector3.new(100, 114, 1284),100)
-	wait(.1) 
-	game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.E.Value, false, nil)
-	wait()
-	game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.E.Value, false, nil)
+		moveTo(Vector3.new(100, 114, 1284),100)
+		wait(.1) 
+		game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.E.Value, false, nil)
+		wait()
+		game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.E.Value, false, nil)
 	until (hrp.Position - Vector3.new(100, 114, 1284)).magnitude <= 2
 	if _G.Auto then
-	wait(3)
-	moveTo(Vector3.new(99, 19, 1285),100)
-	for i = 1, 5 do
-		local pos = hrp.Position
-		hrp.CFrame = CFrame.new(pos.X, pos.Y, pos.Z) * CFrame.Angles(0, math.rad(-64-180), 0)
-		game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.F.Value, false, nil)
-		task.wait(.5)
-		game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.F.Value, false, nil)
-	end
-	if game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false then
-		moveTo(Vector3.new(109, 19, 1341),100)
+		wait(3)
+		moveTo(Vector3.new(99, 19, 1285),100)
 		for i = 1, 5 do
 			local pos = hrp.Position
 			hrp.CFrame = CFrame.new(pos.X, pos.Y, pos.Z) * CFrame.Angles(0, math.rad(-64-180), 0)
@@ -211,72 +194,81 @@ is = true
 			task.wait(.5)
 			game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.F.Value, false, nil)
 		end
-	end
-	if game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false then
-		moveTo(Vector3.new(109, 19, 1341),100)
-		for i = 1, 5 do
-			local pos = hrp.Position
-			hrp.CFrame = CFrame.new(pos.X, pos.Y, pos.Z) * CFrame.Angles(0, math.rad(-64-180), 0)
-			game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.F.Value, false, nil)
-			task.wait(.5)
-			game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.F.Value, false, nil)
+		if game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false then
+			moveTo(Vector3.new(109, 19, 1341),100)
+			for i = 1, 5 do
+				local pos = hrp.Position
+				hrp.CFrame = CFrame.new(pos.X, pos.Y, pos.Z) * CFrame.Angles(0, math.rad(-64-180), 0)
+				game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.F.Value, false, nil)
+				task.wait(.5)
+				game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.F.Value, false, nil)
+			end
 		end
-	end
+		if game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false then
+			moveTo(Vector3.new(109, 19, 1341),100)
+			for i = 1, 5 do
+				local pos = hrp.Position
+				hrp.CFrame = CFrame.new(pos.X, pos.Y, pos.Z) * CFrame.Angles(0, math.rad(-64-180), 0)
+				game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.F.Value, false, nil)
+				task.wait(.5)
+				game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.F.Value, false, nil)
+			end
+		end
 
-	if game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false then
-		moveTo(Vector3.new(107, 19, 1334),100)
-		for i = 1, 5 do
-			local pos = hrp.Position
-			hrp.CFrame = CFrame.new(pos.X, pos.Y, pos.Z) * CFrame.Angles(0, math.rad(-64-180), 0)
-			game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.F.Value, false, nil)
-			task.wait(.5)
-			game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.F.Value, false, nil)
+		if game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false then
+			moveTo(Vector3.new(107, 19, 1334),100)
+			for i = 1, 5 do
+				local pos = hrp.Position
+				hrp.CFrame = CFrame.new(pos.X, pos.Y, pos.Z) * CFrame.Angles(0, math.rad(-64-180), 0)
+				game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.F.Value, false, nil)
+				task.wait(.5)
+				game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.F.Value, false, nil)
+			end
 		end
-	end
 
-	if game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false then
-		moveTo(Vector3.new(106, 19, 1327),100)
-		for i = 1, 5 do
-			local pos = hrp.Position
-			hrp.CFrame = CFrame.new(pos.X, pos.Y, pos.Z) * CFrame.Angles(0, math.rad(-64-180), 0)
-			game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.F.Value, false, nil)
-			task.wait(.5)
-			game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.F.Value, false, nil)
+		if game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false then
+			moveTo(Vector3.new(106, 19, 1327),100)
+			for i = 1, 5 do
+				local pos = hrp.Position
+				hrp.CFrame = CFrame.new(pos.X, pos.Y, pos.Z) * CFrame.Angles(0, math.rad(-64-180), 0)
+				game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.F.Value, false, nil)
+				task.wait(.5)
+				game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.F.Value, false, nil)
+			end
 		end
-	end
 
-	if game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false then
-		moveTo(Vector3.new(113, 19, 1329),100)
-		for i = 1, 5 do
-			local pos = hrp.Position
-			hrp.CFrame = CFrame.new(pos.X, pos.Y, pos.Z) * CFrame.Angles(0, math.rad(-64), 0)
-			game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.F.Value, false, nil)
-			task.wait(.5)
-			game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.F.Value, false, nil)
+		if game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false then
+			moveTo(Vector3.new(113, 19, 1329),100)
+			for i = 1, 5 do
+				local pos = hrp.Position
+				hrp.CFrame = CFrame.new(pos.X, pos.Y, pos.Z) * CFrame.Angles(0, math.rad(-64), 0)
+				game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.F.Value, false, nil)
+				task.wait(.5)
+				game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.F.Value, false, nil)
+			end
 		end
-	end
 
-	if game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false then
-		moveTo(Vector3.new(112, 19, 1323),100)
-		for i = 1, 5 do
-			local pos = hrp.Position
-			hrp.CFrame = CFrame.new(pos.X, pos.Y, pos.Z) * CFrame.Angles(0, math.rad(-64), 0)
-			game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.F.Value, false, nil)
-			task.wait(.5)
-			game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.F.Value, false, nil)
+		if game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false then
+			moveTo(Vector3.new(112, 19, 1323),100)
+			for i = 1, 5 do
+				local pos = hrp.Position
+				hrp.CFrame = CFrame.new(pos.X, pos.Y, pos.Z) * CFrame.Angles(0, math.rad(-64), 0)
+				game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.F.Value, false, nil)
+				task.wait(.5)
+				game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.F.Value, false, nil)
+			end
 		end
-	end
 
-	if game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false then
-		moveTo(Vector3.new(111, 19, 1317),100)
-		for i = 1, 5 do
-			local pos = hrp.Position
-			hrp.CFrame = CFrame.new(pos.X, pos.Y, pos.Z) * CFrame.Angles(0, math.rad(-64), 0)
-			game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.F.Value, false, nil)
-			task.wait(.5)
-			game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.F.Value, false, nil)
+		if game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false then
+			moveTo(Vector3.new(111, 19, 1317),100)
+			for i = 1, 5 do
+				local pos = hrp.Position
+				hrp.CFrame = CFrame.new(pos.X, pos.Y, pos.Z) * CFrame.Angles(0, math.rad(-64), 0)
+				game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.F.Value, false, nil)
+				task.wait(.5)
+				game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.F.Value, false, nil)
+			end
 		end
-	end
 	else
 		bv:Destroy()
 	end
@@ -289,19 +281,19 @@ else
 	task.wait(.5)
 	moveTo(Vector3.new(90, 18, 1308),100)
 	if _G.Auto == true then
-	wait(1)
-	moveTo(Vector3.new(99, 19, 1306),50)
-	wait(.3)
-	repeat
-		moveTo(Vector3.new(108, 19, 1297),100)
-		local pos = hrp.Position
-		hrp.CFrame = CFrame.new(pos.X, pos.Y, pos.Z) * CFrame.Angles(0, math.rad(-64), 0)
-		game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.F.Value, false, nil)
-		task.wait()
-		game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.F.Value, false, nil)
-	until game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == true
-	hrp.CFrame = hrp.CFrame + Vector3.new(0,-3,0)
-	hrp.CFrame = CFrame.new(90, 16, 1308)
+		wait(1)
+		moveTo(Vector3.new(99, 19, 1306),50)
+		wait(.3)
+		repeat
+			moveTo(Vector3.new(108, 19, 1297),100)
+			local pos = hrp.Position
+			hrp.CFrame = CFrame.new(pos.X, pos.Y, pos.Z) * CFrame.Angles(0, math.rad(-64), 0)
+			game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.F.Value, false, nil)
+			task.wait()
+			game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.F.Value, false, nil)
+		until game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == true
+		hrp.CFrame = hrp.CFrame + Vector3.new(0,-3,0)
+		hrp.CFrame = CFrame.new(90, 16, 1308)
 	else
 		bv:Destroy()
 	end
@@ -330,11 +322,4 @@ end
 wait(.1)
 bv:Destroy()
 wait(3)
-local TeleportService=game:GetService("TeleportService")
-local HttpService=game:GetService("HttpService")
-local Players=game:GetService("Players")
-local API="https://8649f5a9-2ebe-43c6-bc1b-7871595f5cd7-00-2ar60u5xx0j3s.worf.replit.dev/api/latest-robbery/jewelry"
-local function get(u) if syn and syn.request then return syn.request({Url=u,Method="GET"}) elseif request then return request({Url=u,Method="GET"}) elseif http and http.request then return http.request({Url=u,Method="GET"}) end end
-local r=get(API) if not r then return end
-local ok,d=pcall(function() return HttpService:JSONDecode(r.Body) end)
-if ok and d and d.found then TeleportService:TeleportToPlaceInstance(game.PlaceId,d.serverId,Players.LocalPlayer) else warn("Сервер не найден!") end
+teleport()
