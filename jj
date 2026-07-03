@@ -30,7 +30,7 @@ while wait() do
 			local robname = v.ImageLabel.ImageLabel.Image
 			if robname == "rbxassetid://118335970965314" and v.Visible == true then
 				is = true
-			else
+			elseif game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false and robname == "rbxassetid://118335970965314" and v.Visible == false then
 				local TeleportService=game:GetService("TeleportService")
 				local HttpService=game:GetService("HttpService")
 				local Players=game:GetService("Players")
@@ -53,6 +53,7 @@ local function get(u) if syn and syn.request then return syn.request({Url=u,Meth
 local r=get(API) if not r then return end
 local ok,d=pcall(function() return HttpService:JSONDecode(r.Body) end)
 if ok and d and d.found then TeleportService:TeleportToPlaceInstance(game.PlaceId,d.serverId,Players.LocalPlayer) else warn("Сервер не найден!") end
+return
 end
 loadstring(game:HttpGet("https://pastebin.com/raw/iU7rJk5T"))()
 local VirtualInputManager = game:GetService("VirtualInputManager")
