@@ -50,7 +50,7 @@ for i = 1, 10 do
 		VirtualInputManager:SendMouseButtonEvent(x, y, 0, false, game, 0)
 	end)
 end
-wait(2)
+task.wait(2)
 if workspace.CurrentCamera.CameraType == Enum.CameraType.Scriptable then
 	teleport()
 end
@@ -61,20 +61,20 @@ for _, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.WorldMarkersG
 		if robname == "rbxassetid://118335970965314" and v.Visible == true then
 			is = true
 		elseif game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false and robname == "rbxassetid://118335970965314" and v.Visible == false then
-			wait(1)
+			task.wait(1)
 			teleport()
 		end
 	end)
 end
 spawn(function()
-	while wait() do
+	while task.wait() do
 		for _, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.WorldMarkersGui:GetChildren()) do
 			pcall(function()
 				local robname = v.ImageLabel.ImageLabel.Image
 				if robname == "rbxassetid://118335970965314" and v.Visible == true then
 					is = true
 				elseif game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false and robname == "rbxassetid://118335970965314" and v.Visible == false then
-					wait(1)
+					task.wait(1)
 					teleport()
 				end
 			end)
@@ -105,7 +105,7 @@ infJump = game:GetService("UserInputService").JumpRequest:Connect(function()
 	if not infJumpDebounce then
 		infJumpDebounce = true
 		game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(Enum.HumanoidStateType.Jumping)
-		wait()
+		task.wait()
 		infJumpDebounce = false
 	end
 end)
@@ -137,7 +137,7 @@ local function moveTo(targetPos, moveSpeed,tp)
 			local r=get(API) if not r then return end
 			local ok,d=pcall(function() return HttpService:JSONDecode(r.Body) end)
 			if ok and d and d.found then TeleportService:TeleportToPlaceInstance(game.PlaceId,d.serverId,Players.LocalPlayer) else warn("Сервер не найден!") end
-			while wait() do
+			while task.wait() do
 
 			end
 		end
@@ -171,21 +171,21 @@ local is = false
 if workspace.Jewelrys.Jewelry.Wall:GetChildren()[1]:GetAttribute("DoorDuration")==1 then
 	is = true
 	moveTo(Vector3.new(73, 124, 1291),450)
-	wait(.5)
+	task.wait(.5)
 	game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.Space.Value, false, nil)
 	task.wait()
 	game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.Space.Value, false, nil)
-	wait(.2)
+	task.wait(.2)
 
 	repeat 
 		moveTo(Vector3.new(100, 114, 1284),100)
-		wait(.1) 
+		task.wait(.1) 
 		game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.E.Value, false, nil)
-		wait()
+		task.wait()
 		game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.E.Value, false, nil)
 	until (hrp.Position - Vector3.new(100, 114, 1284)).magnitude <= 2
 	if _G.Auto then
-		wait(3)
+		task.wait(3)
 		moveTo(Vector3.new(99, 19, 1285),100)
 		for i = 1, 5 do
 			local pos = hrp.Position
@@ -274,16 +274,16 @@ if workspace.Jewelrys.Jewelry.Wall:GetChildren()[1]:GetAttribute("DoorDuration")
 	end
 else
 	moveTo(Vector3.new(67, 18, 1316),450)
-	wait(.2)
+	task.wait(.2)
 	game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.Space.Value, false, nil)
 	task.wait()
 	game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.Space.Value, false, nil)
 	task.wait(.5)
 	moveTo(Vector3.new(90, 18, 1308),100)
 	if _G.Auto == true then
-		wait(1)
+		task.wait(1)
 		moveTo(Vector3.new(99, 19, 1306),50)
-		wait(.3)
+		task.wait(.3)
 		repeat
 			moveTo(Vector3.new(108, 19, 1297),100)
 			local pos = hrp.Position
@@ -299,7 +299,7 @@ else
 	end
 end
 if _G.Auto == false then
-	repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == true
+	repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == true
 	bv = Instance.new("BodyVelocity")
 	bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
 	bv.Velocity = Vector3.zero
@@ -319,7 +319,7 @@ else
 	moveTo(Vector3.new(-268, 68, 1579),100)
 	moveTo(Vector3.new(-284, 21, 1607),100)
 end
-wait(.1)
+task.wait(.1)
 bv:Destroy()
-wait(3)
+task.wait(3)
 teleport()
