@@ -19,7 +19,7 @@ Players.LocalPlayer.OnTeleport:Connect(function(State)
     if not TeleportCheck and queueteleport then
         TeleportCheck = true
         queueteleport([[
-            --loadstring(game:HttpGet('https://raw.githubusercontent.com/ScriptsHubRBX/Script/refs/heads/main/jj'))()
+            loadstring(game:HttpGet('https://raw.githubusercontent.com/ScriptsHubRBX/Script/refs/heads/main/jj'))()
         ]])
     end
 end)
@@ -67,8 +67,7 @@ while wait() do
 			if robname == "rbxassetid://118335970965314" and v.Visible == true then
 				is = true
 			elseif game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false and robname == "rbxassetid://118335970965314" and v.Visible == false then
-				print(1)
-				wait(3)
+				wait(1)
 				local TeleportService=game:GetService("TeleportService")
 				local HttpService=game:GetService("HttpService")
 				local Players=game:GetService("Players")
