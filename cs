@@ -29,7 +29,7 @@ Players.LocalPlayer.OnTeleport:Connect(function(State)
 	if not TeleportCheck and queueteleport then
 		TeleportCheck = true
 		queueteleport([[
-            --loadstring(game:HttpGet('https://raw.githubusercontent.com/ScriptsHubRBX/Script/refs/heads/main/jj'))()
+            loadstring(game:HttpGet('https://raw.githubusercontent.com/ScriptsHubRBX/Script/refs/heads/main/jj'))()
         ]])
 	end
 end)
@@ -163,6 +163,7 @@ game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.Space.Val
 task.wait()
 game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.Space.Value, false, nil)
 task.wait(.2)
+moveTo(Vector3.new(1120, 158, -3673),100)
 moveTo(Vector3.new(1172, 160, -3650),100)
 moveTo(Vector3.new(1182, 160, -3660),50)
 moveTo(Vector3.new(1178, 77, -3654),100)
