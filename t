@@ -29,7 +29,7 @@ Players.LocalPlayer.OnTeleport:Connect(function(State)
 	if not TeleportCheck and queueteleport then
 		TeleportCheck = true
 		queueteleport([[
-            --loadstring(game:HttpGet('https://raw.githubusercontent.com/ScriptsHubRBX/Script/refs/heads/main/jj'))()
+            loadstring(game:HttpGet('https://raw.githubusercontent.com/ScriptsHubRBX/Script/refs/heads/main/t'))()
         ]])
 	end
 end)
@@ -182,3 +182,4 @@ game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.E.Value, 
 repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui.RobberyMoneyGui.Frame.Visible == false
 game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.E.Value, false, nil)
 task.wait(3)
+teleport()
