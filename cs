@@ -114,7 +114,7 @@ end)
 local bv = nil
 local hrp = character.HumanoidRootPart
 local function moveTo(targetPos, moveSpeed)
-	local disct = 1
+	local disct = .7
 	if character.Humanoid.Sit == true then
 		disct = 5
 	end
@@ -163,10 +163,10 @@ game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.Space.Val
 task.wait()
 game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.Space.Value, false, nil)
 task.wait(.2)
-moveTo(Vector3.new(1120, 158, -3673),50)
-moveTo(Vector3.new(1172, 160, -3650),50)
-moveTo(Vector3.new(1182, 160, -3660),50)
-moveTo(Vector3.new(1178, 77, -3654),50)
+moveTo(Vector3.new(1120, 158, -3673),70)
+moveTo(Vector3.new(1172, 160, -3650),70)
+moveTo(Vector3.new(1182, 160, -3660),70)
+moveTo(Vector3.new(1178, 77, -3654),70)
 if workspace.Casino:GetAttribute("CasinoRobberyActive") == false then
 	moveTo(Vector3.new(1167, 76, -3644),100)
 	moveTo(Vector3.new(1006, 76, -3668),100)
@@ -196,20 +196,20 @@ if workspace.Casino:GetAttribute("CasinoRobberyActive") == false then
 	moveTo(Vector3.new(1167, 76, -3644),100)
 	moveTo(Vector3.new(1178, 77, -3654),100)
 end
-moveTo(Vector3.new(1179, -73, -3656),50)
-moveTo(Vector3.new(1170, -73, -3646),50)
-moveTo(Vector3.new(1172, -73, -3608),50)
+moveTo(Vector3.new(1179, -73, -3656),70)
+moveTo(Vector3.new(1170, -73, -3646),70)
+moveTo(Vector3.new(1172, -73, -3608),70)
 game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.E.Value, false, nil)
 task.wait(1)
 game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.E.Value, false, nil)
-moveTo(Vector3.new(1173, -72, -3607),50)
-moveTo(Vector3.new(1183, -73, -3597),50)
+moveTo(Vector3.new(1173, -72, -3607),30)
+moveTo(Vector3.new(1183, -73, -3597),30)
 moveTo(Vector3.new(1140, -73, -3553),50)
-moveTo(Vector3.new(1108, -73, -3581),50)
-moveTo(Vector3.new(1062, -73, -3533),50)
-moveTo(Vector3.new(1043, -73, -3474),50)
-moveTo(Vector3.new(1055, -73, -3420),50)
-moveTo(Vector3.new(1079, -72, -3377),50)
+moveTo(Vector3.new(1108, -73, -3581),70)
+moveTo(Vector3.new(1062, -73, -3533),70)
+moveTo(Vector3.new(1043, -73, -3474),70)
+moveTo(Vector3.new(1055, -73, -3420),70)
+moveTo(Vector3.new(1079, -72, -3377),70)
 if workspace.Casino.HackableVaults.VaultDoorMain:GetAttribute("DoorOpen") == false then
 	game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.E.Value, false, nil)
 	task.wait()
@@ -229,7 +229,7 @@ if workspace.Casino.HackableVaults.VaultDoorMain:GetAttribute("DoorOpen") == fal
 	task.wait()
 	game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.E.Value, false, nil)
 end
-moveTo(Vector3.new(1118, -70, -3311),50)
+moveTo(Vector3.new(1118, -70, -3311),70)
 local is = false
 local start = tick()
 repeat
@@ -258,20 +258,20 @@ if not bv then
 	bv.Velocity = Vector3.zero
 	bv.Parent = hrp
 end
-moveTo(Vector3.new(1087, -73, -3364),50)
-moveTo(Vector3.new(1079, -72, -3377),50)
-moveTo(Vector3.new(1055, -73, -3420),50)
-moveTo(Vector3.new(1043, -73, -3474),50)
-moveTo(Vector3.new(1062, -73, -3533),50)
-moveTo(Vector3.new(1108, -73, -3581),50)
-moveTo(Vector3.new(1140, -73, -3553),50)
-moveTo(Vector3.new(1183, -73, -3597),50)
-moveTo(Vector3.new(1173, -72, -3607),50)
-moveTo(Vector3.new(1172, -73, -3608),50)
-moveTo(Vector3.new(1170, -73, -3646),50)
-moveTo(Vector3.new(1179, -73, -3656),50)
-moveTo(Vector3.new(1182, 160, -3660),50)
-moveTo(Vector3.new(1172, 160, -3650),50)
+moveTo(Vector3.new(1087, -73, -3364),70)
+moveTo(Vector3.new(1079, -72, -3377),70)
+moveTo(Vector3.new(1055, -73, -3420),70)
+moveTo(Vector3.new(1043, -73, -3474),70)
+moveTo(Vector3.new(1062, -73, -3533),70)
+moveTo(Vector3.new(1108, -73, -3581),70)
+moveTo(Vector3.new(1140, -73, -3553),70)
+moveTo(Vector3.new(1183, -73, -3597),70)
+moveTo(Vector3.new(1173, -72, -3607),70)
+moveTo(Vector3.new(1172, -73, -3608),70)
+moveTo(Vector3.new(1170, -73, -3646),70)
+moveTo(Vector3.new(1179, -73, -3656),70)
+moveTo(Vector3.new(1182, 160, -3660),70)
+moveTo(Vector3.new(1172, 160, -3650),70)
 
 for i, v in workspace.Vehicles:GetChildren() do
 	if v:GetAttribute("LastDriverId") == game:GetService("Players").LocalPlayer.UserId then
