@@ -151,10 +151,10 @@ for i, v in workspace.Vehicles:GetChildren() do
 		my.Name = "Mycar"
 	end
 end
-moveTo(Vector3.new(-1129, 53, -1396),450)
-moveTo(Vector3.new(-826, 274, -2070),450)
-moveTo(Vector3.new(1048, 172, -3623),450)
-moveTo(Vector3.new(1120, 158, -3673),450)
+moveTo(Vector3.new(-1129, 53, -1396),400)
+moveTo(Vector3.new(-826, 274, -2070),400)
+moveTo(Vector3.new(1048, 172, -3623),400)
+moveTo(Vector3.new(1120, 158, -3673),400)
 task.wait(.5)
 if workspace.Casino:FindFirstChild("Elevator") then
 	workspace.Casino.Elevator:Destroy()
@@ -294,10 +294,10 @@ if character.Humanoid.Sit == false then
 		end
 	until character.Humanoid.Sit == true
 end
-moveTo(Vector3.new(1049, 182, -3599),450)
-moveTo(Vector3.new(1392, 297, -2805),450)
-moveTo(Vector3.new(1694, 300, -2048),450)
-moveTo(Vector3.new(1689, 67, -2053),450)
+moveTo(Vector3.new(1049, 182, -3599),400)
+moveTo(Vector3.new(1392, 297, -2805),400)
+moveTo(Vector3.new(1694, 300, -2048),400)
+moveTo(Vector3.new(1689, 67, -2053),400)
 moveTo(Vector3.new(1729, 73, -2046),100)
 moveTo(Vector3.new(1751, 69, -2040),100)
 moveTo(Vector3.new(1755, 41, -2042),100)
