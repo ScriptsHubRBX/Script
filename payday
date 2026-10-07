@@ -1,3 +1,19 @@
+spawn(function()
+while wait() do
+    pcall(function()
+        for i, v in workspace.Police:GetChildren() do
+            v.Humanoid.Health = 0
+            wait()
+        end
+        for i, v in workspace.Bags:GetChildren() do
+            if v:IsA("Model") and v:FindFirstChild("MoneyBag") and not v.MoneyBag:FindFirstChild("BagWeld") then
+                v.MoneyBag.CFrame = workspace.BagSecuredArea.FloorPart.CFrame + Vector3.new(0,4,0)
+                wait()
+            end
+        end
+    end)
+end
+end)
 local Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
 local player = Players.LocalPlayer
@@ -80,19 +96,16 @@ local startPos = hrp.Position
 local items = Workspace.BigLoot:GetChildren()
 local visited = {}
 
-for cycle = 1, 4 do
-    for i = 1, 2 do
+for cycle = 1, 8 do
         local nearest, nearestPos = findNearest(items, visited)
         if not nearest or not nearestPos then break end
 
         visited[nearest] = true
         moveTo(nearestPos, 90)
-        waitForRemoval(nearest) -- вызываем с конкретным объектом
-    end
+        waitForRemoval(nearest)
 
-    moveTo(startPos, 90)
-    task.wait(1)
 end
+moveTo(workspace.BagSecuredArea.FloorPart.Position, 90)
 
 bv:Destroy()
 connection:Disconnect()
