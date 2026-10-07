@@ -1,0 +1,98 @@
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local hrp = character:WaitForChild("HumanoidRootPart")
+local RunService = game:GetService("RunService")
+
+local connection = RunService.Stepped:Connect(function()
+    for _, v in character:GetChildren() do
+        if v:IsA("BasePart") then
+            v.CanCollide = false
+        end
+    end
+end)
+
+local bv = Instance.new("BodyVelocity")
+bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+bv.Velocity = Vector3.zero
+bv.Parent = hrp
+
+for i, v in Workspace.BigLoot:GetChildren() do
+    Instance.new("Highlight", v)
+end
+
+local function getPosition(target)
+    if typeof(target) == "Vector3" then
+        return target
+    elseif typeof(target) == "Instance" then
+        if target:IsA("Model") then
+            local primary = target:FindFirstChild("HumanoidRootPart")
+                or target:FindFirstChild("PrimaryPart")
+                or target:FindFirstChildWhichIsA("BasePart")
+            if primary then return primary.Position end
+        elseif target:IsA("BasePart") then
+            return target.Position
+        end
+    end
+    return nil
+end
+
+local function moveTo(targetPos, moveSpeed)
+    local dist = 1
+    if character.Humanoid.Sit == true then
+        dist = 5
+    end
+    repeat
+        task.wait()
+        local direction = (targetPos - hrp.Position).Unit
+        bv.Velocity = direction * moveSpeed
+    until (targetPos - hrp.Position).Magnitude <= dist
+    bv.Velocity = Vector3.zero
+end
+
+local function findNearest(items, visited)
+    local nearest, nearestPos, minDist = nil, nil, math.huge
+    for _, v in items do
+        if not visited[v] then
+            local pos = getPosition(v:FindFirstChild("Hitbox") or v)
+            if pos then
+                local dist = (hrp.Position - pos).Magnitude
+                if dist < minDist then
+                    minDist = dist
+                    nearest = v
+                    nearestPos = pos
+                end
+            end
+        end
+    end
+    return nearest, nearestPos
+end
+
+-- Ждём пока объект удалится из Workspace (с таймаутом)
+local function waitForRemoval(target)
+    repeat
+        task.wait(0.1)
+    until not target or not target.Parent
+end
+
+local startPos = hrp.Position
+local items = Workspace.BigLoot:GetChildren()
+local visited = {}
+
+for cycle = 1, 4 do
+    for i = 1, 2 do
+        local nearest, nearestPos = findNearest(items, visited)
+        if not nearest or not nearestPos then break end
+
+        visited[nearest] = true
+        moveTo(nearestPos, 90)
+        waitForRemoval(nearest) -- вызываем с конкретным объектом
+    end
+
+    moveTo(startPos, 90)
+    task.wait(1)
+end
+
+bv:Destroy()
+connection:Disconnect()
