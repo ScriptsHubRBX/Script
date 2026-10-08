@@ -14,7 +14,6 @@ repeat wait() until game:GetService("Players").LocalPlayer
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
-wait(5)
 game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
     if not TeleportCheck and queueteleport then
         TeleportCheck = true
@@ -191,5 +190,5 @@ moveTo(workspace.BagSecuredArea.FloorPart.Position, 90)
 
 bv:Destroy()
 connection:Disconnect()
-repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui.SG_Package.RankUp.Enabled == true
+wait(3)
 game:GetService("ReplicatedStorage").RS_Package.Remotes.VoteReset:FireServer()
