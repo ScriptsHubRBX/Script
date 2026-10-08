@@ -192,4 +192,28 @@ moveTo(workspace.BagSecuredArea.FloorPart.Position, 90)
 bv:Destroy()
 connection:Disconnect()
 wait(3)
+local SUFFIXES = {"", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"}
+
+local function toSuffix(num)
+    if num < 1000 then return tostring(math.floor(num)) end
+
+    local tier = math.floor(math.log10(num) / 3)
+    tier = math.min(tier, #SUFFIXES - 1)
+
+    local scaled = num / (10 ^ (tier * 3))
+    return string.format("%.2f%s", scaled, SUFFIXES[tier + 1])
+end
+local RS = game:GetService("ReplicatedStorage")
+local lp = game.Players.LocalPlayer
+
+local pd = RS:FindFirstChild("PlayerData")
+local playerFolder = pd and pd:FindFirstChild(lp.Name)
+local dataFolder = playerFolder and playerFolder:FindFirstChild(lp.Name .. "'s Data")
+local cash = dataFolder and dataFolder:FindFirstChild("Cash")
+
+if cash then
+    print("Cash:", toSuffix(cash.Value))
+else
+    warn("Cash не найден")
+end
 game:GetService("ReplicatedStorage").RS_Package.Remotes.VoteReset:FireServer()
