@@ -198,7 +198,7 @@ repeat wait()
         if not nearest or not nearestPos then break end
 
         visited[nearest] = true
-        if is >= 4 then
+        if is >= 3 then
         moveTo(nearestPos, 90)
         else
             is +=1
