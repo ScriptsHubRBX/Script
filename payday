@@ -10,7 +10,7 @@ local queueteleport = missing("function",
 )
 
 local TeleportCheck = false
-
+repeat wait() until game:GetService("Players").LocalPlayer
 game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
     if not TeleportCheck and queueteleport then
         TeleportCheck = true
