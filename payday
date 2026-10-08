@@ -14,7 +14,7 @@ repeat wait() until game:GetService("Players").LocalPlayer
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
-wait(5)
+wait(2)
 game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
     if not TeleportCheck and queueteleport then
         TeleportCheck = true
@@ -29,7 +29,6 @@ Event:FireServer(
     true
 )
 repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui.SG_Package.MainGui.PregameFrame.Visible == false
-print(1)
 local Event = game:GetService("ReplicatedStorage").RS_Package.Assets.Remotes.MaskOn
 Event:FireServer(
     nil,
@@ -133,9 +132,24 @@ local function moveTo(targetPos, moveSpeed)
     bv.Velocity = Vector3.zero
 end
 
-local function findNearest(items, visited)
+local function findNearest(items, visited,is)
     local nearest, nearestPos, minDist = nil, nil, math.huge
+    if is then
     for _, v in items do
+        if not visited[v] then
+            local pos = getPosition(v:FindFirstChild("Hitbox") or v)
+            if pos then
+                local dist = (hrp.Position - pos).Magnitude
+                if dist < minDist then
+                    minDist = dist
+                    nearest = v
+                    nearestPos = pos
+                end
+            end
+        end
+    end
+    else
+        for _, v in items do
         if not visited[v] and v.Name ~= "WeaponBagger" then
             local pos = getPosition(v:FindFirstChild("Hitbox") or v)
             if pos then
@@ -148,14 +162,15 @@ local function findNearest(items, visited)
             end
         end
     end
+    end
     return nearest, nearestPos,v
 end
 
 -- Ждём пока объект удалится из Workspace (с таймаутом)
-local function waitForRemoval(target)
+local function waitForRemoval(target,pos)
     repeat
         for i, v in target:GetChildren() do
-            if v:FindFirstChild("ProximityPrompt")  then
+            if v:FindFirstChild("ProximityPrompt") then
                 StartInteraction:FireServer(v:FindFirstChild("ProximityPrompt"))
                 if target.Name == "WeaponBagger" then
                     task.wait(1)
@@ -166,32 +181,40 @@ local function waitForRemoval(target)
                 break
             end
         end
+        wait()
     until not target or not target.Parent
 end
 
 local startPos = hrp.Position
 local items = Workspace.BigLoot:GetChildren()
 local visited = {}
-
-for cycle = 1, #items do
-        local nearest, nearestPos,f = findNearest(items, visited)
+local is = 0
+repeat wait()
+        if game:GetService("ReplicatedStorage").RS_Package.ReplicatedGameStatus.BagsSecured.Value >= 7 then
+            nearest, nearestPos,f = findNearest(items, visited,true)
+        else
+           nearest, nearestPos,f = findNearest(items, visited,false) 
+        end
         if not nearest or not nearestPos then break end
 
         visited[nearest] = true
+        if is >= 4 then
         moveTo(nearestPos, 90)
-        print(nearest.Name)
-        waitForRemoval(nearest)
-
+        else
+            is +=1
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(nearestPos)
+        end
+        waitForRemoval(nearest,nearestPos)
         local Event = game:GetService("ReplicatedStorage").RS_Package.Remotes.ThrowBag
         Event:FireServer(
-            game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+            Vector3.new(-63, 2, -13)
         )
-end
-moveTo(workspace.BagSecuredArea.FloorPart.Position, 90)
-
+until game:GetService("ReplicatedStorage").RS_Package.ReplicatedGameStatus.BagsSecured.Value >= 8
+--moveTo(workspace.BagSecuredArea.FloorPart.Position, 90)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-63, 2, -135)
 bv:Destroy()
 connection:Disconnect()
-wait(3)
+wait(1)
 local SUFFIXES = {"", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"}
 
 local function toSuffix(num)
@@ -216,4 +239,5 @@ if cash then
 else
     warn("Cash не найден")
 end
+repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui.SG_Package.MainGui.frame_heistResults.Visible == true
 game:GetService("ReplicatedStorage").RS_Package.Remotes.VoteReset:FireServer()
