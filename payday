@@ -209,7 +209,11 @@ repeat wait()
         Event:FireServer(
             Vector3.new(-63, 2, -13)
         )
+        if game:GetService("ReplicatedStorage").RS_Package.ReplicatedGameStatus.BagsSecured.Value >= 7 then
+            wait(2)
+        end
 until game:GetService("ReplicatedStorage").RS_Package.ReplicatedGameStatus.BagsSecured.Value >= 8
+print(game:GetService("ReplicatedStorage").RS_Package.ReplicatedGameStatus.BagsSecured.Value)
 --moveTo(workspace.BagSecuredArea.FloorPart.Position, 90)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-63, 2, -135)
 bv:Destroy()
