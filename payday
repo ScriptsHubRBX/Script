@@ -1,13 +1,75 @@
+local function missing(t, f, fallback)
+    if type(f) == t then return f end
+    return fallback
+end
+
+local queueteleport = missing("function", 
+    queue_on_teleport 
+    or (syn and syn.queue_on_teleport) 
+    or (fluxus and fluxus.queue_on_teleport)
+)
+
+local TeleportCheck = false
+
+game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
+    if not TeleportCheck and queueteleport then
+        TeleportCheck = true
+        queueteleport([[
+            loadstring(game:HttpGet('https://raw.githubusercontent.com/ScriptsHubRBX/Script/refs/heads/main/payday'))()
+        ]])
+    end
+end)
+local Event = game:GetService("ReplicatedStorage").RS_Package.Remotes.PlayerReady
+Event:FireServer(
+    "Class 1",
+    true
+)
+repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui.SG_Package.MainGui.PregameFrame.Visible == false
+print(1)
+local Event = game:GetService("ReplicatedStorage").RS_Package.Assets.Remotes.MaskOn
+Event:FireServer(
+    nil,
+    "Primary"
+)
+local UserInputService = game:GetService("UserInputService")
+local ProximityPromptService = game:GetService("ProximityPromptService")
+local RS = game:GetService("ReplicatedStorage")
+
+local lastPrompt = nil
+
+ProximityPromptService.PromptShown:Connect(function(prompt)
+    if prompt.Parent.Name ~= "Torso" then
+        lastPrompt = prompt
+    end
+end)
+
+    local StartInteraction = RS.RS_Package.Remotes.StartInteraction
+    local CompleteInteraction = RS.RS_Package.Remotes.CompleteInteraction
+UserInputService.InputBegan:Connect(function(input, gp)
+    if input.KeyCode == Enum.KeyCode.F then
+        StartInteraction:FireServer(lastPrompt)
+        wait(.7)
+        CompleteInteraction:FireServer(lastPrompt)
+    end
+end)
+
 spawn(function()
 while wait() do
     pcall(function()
+        for i, v in workspace.Criminals:GetChildren() do
+            if v.Name ~= game.Players.LocalPlayer.Name then
+                v.Humanoid.Health = 0
+                v:Destroy()
+            end
+        end
         for i, v in workspace.Police:GetChildren() do
             v.Humanoid.Health = 0
             wait()
         end
         for i, v in workspace.Bags:GetChildren() do
             if v:IsA("Model") and v:FindFirstChild("MoneyBag") and not v.MoneyBag:FindFirstChild("BagWeld") then
-                v.MoneyBag.CFrame = workspace.BagSecuredArea.FloorPart.CFrame + Vector3.new(0,4,0)
+                --v.MoneyBag.Anchored = true
+                v.MoneyBag.CFrame = workspace.BagSecuredArea.FloorPart.CFrame + Vector3.new(0,0,0)
                 wait()
             end
         end
@@ -70,7 +132,7 @@ end
 local function findNearest(items, visited)
     local nearest, nearestPos, minDist = nil, nil, math.huge
     for _, v in items do
-        if not visited[v] then
+        if not visited[v] and v.Name ~= "WeaponBagger" then
             local pos = getPosition(v:FindFirstChild("Hitbox") or v)
             if pos then
                 local dist = (hrp.Position - pos).Magnitude
@@ -82,13 +144,24 @@ local function findNearest(items, visited)
             end
         end
     end
-    return nearest, nearestPos
+    return nearest, nearestPos,v
 end
 
 -- Ждём пока объект удалится из Workspace (с таймаутом)
 local function waitForRemoval(target)
     repeat
-        task.wait(0.1)
+        for i, v in target:GetChildren() do
+            if v:FindFirstChild("ProximityPrompt")  then
+                StartInteraction:FireServer(v:FindFirstChild("ProximityPrompt"))
+                if target.Name == "WeaponBagger" then
+                    task.wait(1)
+                else
+                    task.wait(.51)
+                end
+                CompleteInteraction:FireServer(v:FindFirstChild("ProximityPrompt"))
+                break
+            end
+        end
     until not target or not target.Parent
 end
 
@@ -96,16 +169,23 @@ local startPos = hrp.Position
 local items = Workspace.BigLoot:GetChildren()
 local visited = {}
 
-for cycle = 1, 8 do
-        local nearest, nearestPos = findNearest(items, visited)
+for cycle = 1, #items do
+        local nearest, nearestPos,f = findNearest(items, visited)
         if not nearest or not nearestPos then break end
 
         visited[nearest] = true
         moveTo(nearestPos, 90)
+        print(nearest.Name)
         waitForRemoval(nearest)
 
+        local Event = game:GetService("ReplicatedStorage").RS_Package.Remotes.ThrowBag
+        Event:FireServer(
+            game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+        )
 end
 moveTo(workspace.BagSecuredArea.FloorPart.Position, 90)
 
 bv:Destroy()
 connection:Disconnect()
+repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui.SG_Package.RankUp.Enabled == true
+game:GetService("ReplicatedStorage").RS_Package.Remotes.VoteReset:FireServer()
