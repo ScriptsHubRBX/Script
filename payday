@@ -191,12 +191,12 @@ local visited = {}
 local is = 0
 wait(1)
 repeat wait()
-        if game:GetService("ReplicatedStorage").RS_Package.ReplicatedGameStatus.BagsSecured.Value >= 7 then
+        if game:GetService("ReplicatedStorage").RS_Package.ReplicatedGameStatus.BagsSecured.Value >= 6 then
             nearest, nearestPos,f = findNearest(items, visited,true)
         else
            nearest, nearestPos,f = findNearest(items, visited,false) 
         end
-        if not nearest or not nearestPos then break end
+        if not nearest or not nearestPos then return end
 
         visited[nearest] = true
         if is >= 3 then
