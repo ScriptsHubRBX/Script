@@ -189,6 +189,7 @@ local startPos = hrp.Position
 local items = Workspace.BigLoot:GetChildren()
 local visited = {}
 local is = 0
+wait(1)
 repeat wait()
         if game:GetService("ReplicatedStorage").RS_Package.ReplicatedGameStatus.BagsSecured.Value >= 7 then
             nearest, nearestPos,f = findNearest(items, visited,true)
@@ -198,7 +199,7 @@ repeat wait()
         if not nearest or not nearestPos then break end
 
         visited[nearest] = true
-        if is >= 3 then
+        if is >= 4 then
         moveTo(nearestPos, 90)
         else
             is +=1
@@ -214,8 +215,8 @@ repeat wait()
         end
 until game:GetService("ReplicatedStorage").RS_Package.ReplicatedGameStatus.BagsSecured.Value >= 8
 print(game:GetService("ReplicatedStorage").RS_Package.ReplicatedGameStatus.BagsSecured.Value)
---moveTo(workspace.BagSecuredArea.FloorPart.Position, 90)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-63, 2, -135)
+moveTo(workspace.BagSecuredArea.FloorPart.Position, 95)
+--game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-63, 2, -135)
 bv:Destroy()
 connection:Disconnect()
 wait(1)
