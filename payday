@@ -169,6 +169,7 @@ end
 -- Ждём пока объект удалится из Workspace (с таймаутом)
 local function waitForRemoval(target,pos)
     repeat
+        moveTo(pos, 90)
         for i, v in target:GetChildren() do
             if v:FindFirstChild("ProximityPrompt") then
                 StartInteraction:FireServer(v:FindFirstChild("ProximityPrompt"))
@@ -190,6 +191,10 @@ local items = Workspace.BigLoot:GetChildren()
 local visited = {}
 local is = 0
 wait(1)
+spawn(function()
+    repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui.SG_Package.MainGui.frame_heistResults.Visible == true
+    game:GetService("ReplicatedStorage").RS_Package.Remotes.VoteReset:FireServer()
+end)
 repeat wait()
         if game:GetService("ReplicatedStorage").RS_Package.ReplicatedGameStatus.BagsSecured.Value >= 6 then
             nearest, nearestPos,f = findNearest(items, visited,true)
@@ -244,5 +249,3 @@ if cash then
 else
     warn("Cash не найден")
 end
-repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui.SG_Package.MainGui.frame_heistResults.Visible == true
-game:GetService("ReplicatedStorage").RS_Package.Remotes.VoteReset:FireServer()
