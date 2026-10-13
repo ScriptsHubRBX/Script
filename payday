@@ -14,7 +14,14 @@ repeat wait() until game:GetService("Players").LocalPlayer
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
-wait(2)
+if game:GetService("ReplicatedStorage").PlayerData[game.Players.LocalPlayer.Name][game.Players.LocalPlayer.Name.."'s Data"].Level.Value >= 100 then
+    local sound = Instance.new("Sound",game.SoundService)
+    sound.Playing = true
+    sound.Looped = true
+    sound.SoundId = "rbxassetid://139746569667955"
+    sound.Volume = 10
+end
+wait(4)
 game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
     if not TeleportCheck and queueteleport then
         TeleportCheck = true
