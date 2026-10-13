@@ -21,9 +21,7 @@ if game:GetService("ReplicatedStorage").PlayerData[game.Players.LocalPlayer.Name
     sound.SoundId = "rbxassetid://139746569667955"
     sound.Volume = 10
 end
-local root = game:GetService("Players").LocalPlayer.PlayerScripts.SPS_Package.Music
-
-for _, v in ipairs(root:GetDescendants()) do
+for _, v in ipairs(game:GetDescendants()) do
     if v:IsA("Sound") then
         v:Destroy()
     end
