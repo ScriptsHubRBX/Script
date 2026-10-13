@@ -21,7 +21,11 @@ if game:GetService("ReplicatedStorage").PlayerData[game.Players.LocalPlayer.Name
     sound.SoundId = "rbxassetid://139746569667955"
     sound.Volume = 10
 end
-
+for _, v in ipairs(game:GetDescendants()) do
+    if v:IsA("Sound") then
+        v.Volume = 0
+    end
+end
 wait(4)
 game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
     if not TeleportCheck and queueteleport then
