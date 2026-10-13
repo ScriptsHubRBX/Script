@@ -14,12 +14,12 @@ repeat wait() until game:GetService("Players").LocalPlayer
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
+wait(4)
 for _, v in ipairs(game:GetDescendants()) do
     if v:IsA("Sound") then
         v.Volume = 0
     end
 end
-wait(4)
 if game:GetService("ReplicatedStorage").PlayerData[game.Players.LocalPlayer.Name][game.Players.LocalPlayer.Name.."'s Data"].Level.Value >= 100 then
     local sound = Instance.new("Sound",game.SoundService)
     sound.Playing = true
@@ -79,6 +79,7 @@ while wait() do
         end
         for i, v in workspace.Police:GetChildren() do
             v.Humanoid.Health = 0
+            v:Destroy()
             wait()
         end
         for i, v in workspace.Bags:GetChildren() do
